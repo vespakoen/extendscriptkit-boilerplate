@@ -1,0 +1,40 @@
+{
+  "name": "testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": ". ./env_prod.sh && browserify index.js > build/bundle.js",
+    "start": ". ./env_dev.sh && node dev.js"
+  },
+  "browserify": {
+    "transform": [
+      "sassify",
+      "babelify",
+      "envify",
+      "brfs"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
+    "babel-plugin-transform-es3-property-literals": "^6.8.0",
+    "babel-plugin-transform-es5-property-mutators": "^6.8.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babelify": "^7.3.0",
+    "brfs": "^1.4.3",
+    "browserify": "^13.1.1",
+    "browserify-replace": "^0.9.0",
+    "budo": "^9.2.1",
+    "del": "^2.2.2",
+    "envify": "^3.4.1",
+    "extendscript-es5-shim": "git+https://github.com/ExtendScript/extendscript-es5-shim.git",
+    "generate-function": "^2.0.0",
+    "prependify": "^1.2.0",
+    "sassify": "^2.0.0",
+    "whatwg-fetch": "^1.0.0"
+  }
+}

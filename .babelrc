@@ -1,0 +1,8 @@
+{
+	"presets": ["es2015"],
+	"plugins": [
+		"babel-plugin-transform-es3-member-expression-literals",
+		"babel-plugin-transform-es3-property-literals",
+		"babel-plugin-transform-es5-property-mutators"
+	]
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ExtensionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ExtensionBundleId="com.test.test.extension" ExtensionBundleName="Test Extension" ExtensionBundleVersion="1.0.0" Version="6.0">
+	<ExtensionList>
+		<Extension Id="com.test.test.extension" Version="1.0"/>
+	</ExtensionList>
+	<ExecutionEnvironment>
+		<HostList>
+			<Host Name="AEFT" Version="[13.0,15.9]" />
+		</HostList>
+		<LocaleList>
+			<Locale Code="All"/>
+		</LocaleList>
+		<RequiredRuntimeList>
+			<RequiredRuntime Name="CSXS" Version="6.0"/>
+		</RequiredRuntimeList>
+	</ExecutionEnvironment>
+	<DispatchInfoList>
+		<Extension Id="com.test.test.extension">
+			<DispatchInfo>
+				<Resources>
+					<MainPath>./extension.html</MainPath>
+					<CEFCommandLine>
+						<Parameter>--allow-file-access-from-files</Parameter>
+						<Parameter>--allow-file-access</Parameter>
+						<Parameter>--enable-nodejs</Parameter>
+						<Parameter>--mixed-context</Parameter>
+					</CEFCommandLine>
+				</Resources>
+				<Lifecycle>
+					<AutoVisible>true</AutoVisible>
+				</Lifecycle>
+				<UI>
+					<Type>Panel</Type>
+					<Menu>Test extension</Menu>
+					<Geometry>
+						<Size>
+							<Height>400</Height>
+							<Width>400</Width>
+						</Size>
+					</Geometry>
+				</UI>
+			</DispatchInfo>
+		</Extension>
+	</DispatchInfoList>
+</ExtensionManifest>

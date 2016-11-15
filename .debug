@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionList>
+ <Extension Id="com.test.test.extension">
+ <HostList>
+
+ <!-- AfterEffects -->
+ <Host Name="AEFT" Port="3001" />
+
+ </HostList>
+ </Extension>
+</ExtensionList>
