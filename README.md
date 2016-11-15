@@ -40,7 +40,7 @@ Running `npm start` will do a couple of things:
 - Start the watch process that compiles index.js (the panel code) and serves it on port 3000
 
 When the debugger opens (make sure to start Adobe and load up the extension first!), go to the settings page (icon in the top right) and disable source-maps.
-If you don't disable source-maps, you will get `WEBSOCKET_CLOSED` errors.
+**If you don't disable source-maps, you will get `WEBSOCKET_CLOSED` errors.**
 
 ## Using
 
@@ -52,3 +52,11 @@ Whenever you make a change, the packager will see this and recompile your code a
 Once AE is focused, it will reload the panel and the code will update.
 
 The provided shim will also make "console.log" and "console.error" available within ExtendScript, and whenever you log an error, it will show up in your Panel's window as well.
+
+## Resources
+
+- [Adobe CEP Samples Github](https://github.com/Adobe-CEP/Samples)
+- [Adobe CEP Resources Github](https://github.com/Adobe-CEP/CEP-Resources)
+- [Adobe CEP Resources Github Wiki](https://github.com/Adobe-CEP/CEP-Resources/wiki)
+- [After Effects CS6 Scripting Guide](http://blogs.adobe.com/wp-content/blogs.dir/48/files/2012/06/After-Effects-CS6-Scripting-Guide.pdf?file=2012/06/After-Effects-CS6-Scripting-Guide.pdf)
+- [ExtendScript Github wiki](https://github.com/ExtendScript/wiki/wiki)
