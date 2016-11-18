@@ -1,6 +1,6 @@
 # modern-extendscript
 
-This package uses browserify, budo and babel to give you an awesome dev setup for writing CEP / ExtendScript applications.
+This package uses browserify, budo, babel and LiveReload to give you an awesome dev setup for writing CEP / ExtendScript applications.
 
 At the moment this setup works best (is only tested) on OSX 10.12.1 and After Effects CC 2017.
 
@@ -31,13 +31,11 @@ npm start
 Running `npm start` will do a couple of things:
 
 - Enable debug mode for CEP 4 5 6 and 7 (by running `defaults write com.adobe.CSXS.__VERSION_GOES_HERE__ PlayerDebugMode 1;`)
-- Tail the AE log file (v6)
-- Tail the AE html engine renderer log file (v6)
-- Tail the AE html engine log file (v6)
+- Tail the AE log files (you might see old error messages!)
 - Open the chrome remote debugger page in Google Chrome (this will show a 404 until you start the extension in Adobe)
 - Symlink the extension into the `/Library/Application\ Support/Adobe/CEP/extensions` folder
-- Start the watch process that compiles index.jsx (the ExtendScript code) to build/bundle.jsx
-- Start the watch process that compiles index.js (the panel code) and serves it on port 3000
+- Start the watch process that compiles jsx/index.js (the ExtendScript code) to build/bundle.jsx
+- Start the watch process that compiles jsx/index.js (the panel code) and serves it on port 3000
 
 When the debugger opens (make sure to start Adobe and load up the extension first!), go to the settings page (icon in the top right) and disable source-maps.
 **If you don't disable source-maps, you will get `WEBSOCKET_CLOSED` errors.**

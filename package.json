@@ -1,12 +1,12 @@
 {
-  "name": "testing",
-  "version": "1.0.0",
-  "description": "",
+  "name": "extendscriptkit-boilerplate",
+  "version": "0.1.0",
+  "description": "Boilerplate code for CEP extension with ES2015 (= ES6) support",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": ". ./env_prod.sh && browserify index.js > build/bundle.js",
-    "start": ". ./env_dev.sh && node dev.js"
+    "prod": "node scripts/prod.js",
+    "start": "node scripts/dev.js"
   },
   "browserify": {
     "transform": [
@@ -16,25 +16,34 @@
       "brfs"
     ]
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {},
+  "author": "Koen Schmeets",
+  "license": "MIT",
   "devDependencies": {
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
     "babel-plugin-transform-es5-property-mutators": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.19.0",
     "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
     "babelify": "^7.3.0",
     "brfs": "^1.4.3",
     "browserify": "^13.1.1",
-    "browserify-replace": "^0.9.0",
     "budo": "^9.2.1",
     "del": "^2.2.2",
+    "dotenv": "^2.0.0",
     "envify": "^3.4.1",
     "extendscript-es5-shim": "git+https://github.com/ExtendScript/extendscript-es5-shim.git",
+    "extendscriptkit": "^0.1.1",
     "generate-function": "^2.0.0",
     "prependify": "^1.2.0",
+    "react": "^15.4.0",
+    "react-color": "^2.4.3",
+    "react-dom": "^15.4.0",
     "sassify": "^2.0.0",
+    "uglify-js": "^2.7.4",
     "whatwg-fetch": "^1.0.0"
+  },
+  "dependencies": {
+    "extendscriptkit": "^0.1.2"
   }
 }
