@@ -45,6 +45,8 @@ When the debugger opens (make sure to start Adobe and load up the extension firs
 
 **If you don't disable source-maps, you will get `WEBSOCKET_CLOSED` errors.**
 
+To build your extension for production, run `npm run prod`, this will bundle your code and minify it.
+
 ## Using
 
 If `npm start` is running successfully, and you enabled the extension in Adobe, you can start making changes to the code.
@@ -61,7 +63,7 @@ This boilerplate has setup a SASS compiler, see the `style.scss` file in the roo
 ExtendScript code lives in the `jsx/` folder and you can use ES6 + modules syntax (import / export) there as well!
 By default it loads shims from `extendscriptkit` to make "console.log" and "console.error" available within ExtendScript.
 The log will show up in the ExtendScript Toolkit, the Chrome Remote Debugger and when you log an error it will also show up in the Panel's window.
-To communicate from ExtendScript to the Panel, you can use the `dispatch(type, data)` which can be imported from `extendscriptkit/jsx/bridge`.
+To communicate from ExtendScript to the Panel, you can use the `dispatch(type, data)` function which can be imported from `extendscriptkit/jsx/bridge`.
 
 ## Resources
 
