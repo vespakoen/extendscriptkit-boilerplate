@@ -65,6 +65,7 @@ To communicate from ExtendScript to the Panel, you can use the `dispatch(type, d
 
 ## Resources
 
+- [ExtendScriptKit Docs](https://github.com/vespakoen/extendscriptkit)
 - [Adobe CEP Samples Github](https://github.com/Adobe-CEP/Samples)
 - [Adobe CEP Resources Github](https://github.com/Adobe-CEP/CEP-Resources)
 - [Adobe CEP Resources Github Wiki](https://github.com/Adobe-CEP/CEP-Resources/wiki)
