@@ -3,12 +3,22 @@ import ReactDOM from 'react-dom'
 import App from './components/App' // main react component
 import bridge from 'extendscriptkit/js/bridge' // CSInterface instance
 import cnsl from 'extendscriptkit/js/console'
-import style from '../style.scss' // load sass stylesheet contents (sassify transform)
+import configureStore from './store/configureStore'
+import { Provider } from 'react-redux'
 
-const fs = require('fs') // BRFS tranform is active, files that are readFileSync'd will be embedded in final bundle
-const path = nodeRequire('path') // path utility
+import { getProjectItemNames } from './actions/app'
+
+// weirdo imports
+import style from '../style.scss' // load sass stylesheet contents (sassify transform)
+const fs = require('fs') // files that are readFileSync'd will be embedded in final bundle (BRFS transform)
+const path = nodeRequire('path') // path utility (node.js require)
 
 cnsl(bridge) // add console.log / console.error support
+
+const initialState = {}
+const store = configureStore(initialState)
+
+store.dispatch(getProjectItemNames())
 
 // add stylesheet
 const styleEl = document.createElement('style')
@@ -23,4 +33,8 @@ const appEl = document.createElement('div')
 document.body.appendChild(appEl)
 
 // render the App react component into the app element
-ReactDOM.render(<App />, appEl)
+ReactDOM.render((
+  <Provider store={store}>
+    <App />
+  </Provider>
+), appEl)

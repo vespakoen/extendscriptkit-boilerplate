@@ -33,7 +33,7 @@
     "dotenv": "^2.0.0",
     "envify": "^3.4.1",
     "extendscript-es5-shim": "git+https://github.com/ExtendScript/extendscript-es5-shim.git",
-    "extendscriptkit": "^0.1.1",
+    "extendscriptkit": "^0.1.2",
     "generate-function": "^2.0.0",
     "prependify": "^1.2.0",
     "react": "^15.4.0",
@@ -41,9 +41,11 @@
     "react-dom": "^15.4.0",
     "sassify": "^2.0.0",
     "uglify-js": "^2.7.4",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^1.0.0",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "remote-redux-devtools": "^0.5.4"
   },
-  "dependencies": {
-    "extendscriptkit": "^0.1.2"
-  }
+  "dependencies": {}
 }
