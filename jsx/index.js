@@ -1,6 +1,7 @@
 // javascript shims
 import 'extendscript-es5-shim/String/trim'
 import 'extendscript-es5-shim/Array/forEach'
+import 'extendscript-es5-shim/Array/map'
 import 'extendscript-es5-shim/Object/keys'
 import 'extendscript-es5-shim/Object/defineProperty'
 

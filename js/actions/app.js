@@ -1,19 +1,13 @@
 import { evalJsx } from '../utils'
 
-export function getProjectItemNames() {
+export function getAppProperties() {
   return dispatch => {
-    evalJsx(`
-      var items = []
-      app.project.forItems(function (item) {
-        items.push(item)
+    evalJsx('Object.keys(app)')
+      .then(payload => {
+        dispatch({
+          type: 'GOT_APP_PROPERTIES',
+          payload: payload.split(',')
+        })
       })
-      JSON.stringify(items.map(function (item) { return item.name }))
-    `)
-    .then(payload => {
-      dispatch({
-        type: 'GOT_PROJECT_ITEM_NAMES',
-        payload: JSON.parse(payload)
-      })
-    })
   }
 }

@@ -11,10 +11,15 @@ require('dotenv').config()
 
 const projectDir = path.join(__dirname, '..')
 const buildDir = path.join(projectDir, 'build')
+const distDir = path.join(projectDir, 'dist')
 const jsEntry = path.join(projectDir, 'js/index.js')
 const jsxEntry = path.join(projectDir, 'jsx/index.js')
-const jsBundle = path.join(buildDir, 'bundle.js')
-const jsxBundle = path.join(buildDir, 'bundle.jsx')
+const jsBundle = path.join(distDir, 'bundle.js')
+const jsxBundle = path.join(distDir, 'bundle.jsx')
+const jsxDevBundle = path.join(buildDir, 'bundle.jsx')
+const ZXPSignCmdPath = path.join(__dirname, './ZXPSignCmd/ZXPSignCmd')
+const outXZP = path.join(distDir, 'Extension.zxp')
+const outCert = path.join(distDir, 'Cert.p12')
 
 const NAME = process.env.EXTENSION_NAME
 const BUNDLE_ID = process.env.EXTENSION_BUNDLE_ID
@@ -42,8 +47,8 @@ function tailLogs() {
   // tail the Adobe After Effects extension log files
   const files = [
     '/Library/Logs/CSXS/CEP6-AEFT.log',
-    `/Library/Logs/CSXS/CEPHtmlEngine6-AEFT-14.0-${NAME}-renderer.log`,
-    `/Library/Logs/CSXS/CEPHtmlEngine6-AEFT-14.0-${NAME}.log`
+    // `/Library/Logs/CSXS/CEPHtmlEngine6-AEFT-14.0-${NAME}-renderer.log`,
+    // `/Library/Logs/CSXS/CEPHtmlEngine6-AEFT-14.0-${NAME}.log`
   ]
   files.forEach(file => spawn('tail', ['-f', path.join(process.env.HOME, file)], {
     end: process.env,
@@ -96,7 +101,7 @@ function bundleJs() {
 
 function watchJsx() {
   // start the watch process for jsx/index.js (for ExtendScript ES6/7 support)
-  spawn(path.join(projectDir, '/node_modules/.bin/watchify'), ['-t', 'babelify', jsxEntry, '-o', jsxBundle], {
+  spawn(path.join(projectDir, '/node_modules/.bin/watchify'), ['-t', 'babelify', jsxEntry, '-o', jsxDevBundle], {
     end: process.env,
     stdio: 'inherit'
   })
@@ -122,15 +127,16 @@ function watchJs() {
 
 function writeTemplates(env) {
   // make sure the CSXS folder exists
-  try {
-    fs.mkdirSync(buildDir)
-    fs.mkdirSync(path.join(buildDir, 'CSXS'))
-  } catch (err) {}
+  const dir = env === 'prod' ? distDir : buildDir
+
+  try { del.sync(dir) } catch (err) {}
+  try { fs.mkdirSync(dir) } catch (err) {}
+  try { fs.mkdirSync(path.join(dir, 'CSXS')) } catch (err) {}
 
   if (env === 'dev') {
     // write .debug file
     const debugContents = debugTemplate(BUNDLE_ID, APP_IDS.split(','))
-    fs.writeFileSync(path.join(buildDir, '.debug'), debugContents)
+    fs.writeFileSync(path.join(dir, '.debug'), debugContents)
   }
 
   // write manifest.xml file
@@ -143,22 +149,23 @@ function writeTemplates(env) {
     PANEL_HEIGHT,
     CEF_PARAMS.split(',')
   )
-  fs.writeFileSync(path.join(buildDir, 'CSXS/manifest.xml'), manifestContents)
+  fs.writeFileSync(path.join(dir, 'CSXS/manifest.xml'), manifestContents)
   const scripts = env === 'prod' ? '<script src="bundle.js"></script>' : `
     <script src="http://localhost:3000/bundle.js"></script>
     <script src="http://localhost:35729/livereload.js"></script>`
   let panelHtml = fs.readFileSync(path.join(projectDir, '/panel.html'), 'utf8')
   panelHtml = panelHtml.replace('{scripts}', scripts)
-  fs.writeFileSync(path.join(buildDir, '/panel.html'), panelHtml)
+  fs.writeFileSync(path.join(dir, '/panel.html'), panelHtml)
 }
 
-function symlinkExtension() {
+function symlinkExtension(env) {
+  const dir = env === 'prod' ? distDir : buildDir
   // symlink this extension into the extensions folder
   const CEP_EXTENSIONS_PATH = '/Library/Application\ Support/Adobe/CEP/extensions'
   const CEP_EXTENSIONS_PATH_ALT = path.join(process.env.HOME, CEP_EXTENSIONS_PATH)
   function symLink(target) {
     del.sync(target, { force: true })
-    fs.symlinkSync(buildDir, target)
+    fs.symlinkSync(dir, target)
   }
   try {
     const target = path.join(CEP_EXTENSIONS_PATH, BUNDLE_ID)
@@ -167,6 +174,13 @@ function symlinkExtension() {
     const target = path.join(CEP_EXTENSIONS_PATH_ALT, BUNDLE_ID)
     symLink(target)
   }
+}
+
+function bundleZXP() {
+  console.log(`${ZXPSignCmdPath} -selfSignedCert US NY Company CommonName password ${outCert}`)
+  execSync(`${ZXPSignCmdPath} -selfSignedCert US NY Company CommonName password ${outCert}`)
+  console.log(`${ZXPSignCmdPath} -sign ${distDir} ${outXZP} ${outCert} password`)
+  execSync(`${ZXPSignCmdPath} -sign ${distDir} ${outXZP} ${outCert} password`)
 }
 
 module.exports = {
@@ -178,5 +192,6 @@ module.exports = {
   watchJsx: watchJsx,
   watchJs: watchJs,
   writeTemplates: writeTemplates,
-  symlinkExtension: symlinkExtension
+  symlinkExtension: symlinkExtension,
+  bundleZXP: bundleZXP
 }

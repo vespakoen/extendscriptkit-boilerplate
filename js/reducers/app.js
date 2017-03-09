@@ -1,10 +1,10 @@
 const initialState = {}
 
 export default (state = initialState, action) => {
-  if (action.type === 'GOT_PROJECT_ITEM_NAMES') {
+  if (action.type === 'GOT_APP_PROPERTIES') {
     return {
       ...state,
-      projectItemNames: action.payload
+      appProperties: action.payload
     }
   }
   return state

@@ -1,23 +1,25 @@
 import React, { Component } from 'react'
-import BezierEditor from 'bezier-easing-editor'
+import { connect } from 'react-redux'
+import * as actions from '../actions/app'
 import {
   HuePicker,
   AlphaPicker
 } from 'react-color'
 
-export default class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
+class App extends Component {
   render() {
+    const { getAppProperties } = this.props
     return (
       <div>
         <HuePicker />
         <AlphaPicker />
-        I am a React Component =)
+        <button onClick={() => getAppProperties('position', 1)}>Get app properties</button>
       </div>
     )
   }
 }
+
+export default connect(
+  state => state.app,
+  actions
+)(App)

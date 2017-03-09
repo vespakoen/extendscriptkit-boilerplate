@@ -22,6 +22,10 @@ if (isLooselyTruthy(process.env.EXTENSION_AUTO_OPEN_REMOTE_DEBUGGER))
   openChromeRemoteDebugger()
 
 watchJsx()
-watchJs()
+// wait for the jsx bundle to be available for brfs to pick up (only on initial load)
+setTimeout(() => {
+  watchJs()
+}, 3000)
+
 writeTemplates('dev')
-symlinkExtension()
+symlinkExtension('dev')

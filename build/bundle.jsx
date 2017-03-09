@@ -23,12 +23,14 @@ function createLayerPropertySetter(props) {
   return fn.toFunction();
 }
 
-},{"generate-function":12}],2:[function(require,module,exports){
+},{"generate-function":13}],2:[function(require,module,exports){
 'use strict';
 
 require('extendscript-es5-shim/String/trim');
 
 require('extendscript-es5-shim/Array/forEach');
+
+require('extendscript-es5-shim/Array/map');
 
 require('extendscript-es5-shim/Object/keys');
 
@@ -57,7 +59,6 @@ function _interopRequireDefault(obj) {
 }
 
 // adobe ae helpers
-// javascript shims
 var textSetter = (0, _createLayerPropertySetter2['default'])({
   "Source Text": "Text is set using generated function"
 });
@@ -66,6 +67,7 @@ var textSetter = (0, _createLayerPropertySetter2['default'])({
 
 
 // bridge and console shims
+// javascript shims
 
 
 var startTime = Date.now();
@@ -82,7 +84,7 @@ app.undoable('Fastly adding layers', function () {
   });
 });
 
-},{"./createLayerPropertySetter":1,"extendscript-es5-shim/Array/forEach":3,"extendscript-es5-shim/Object/defineProperty":4,"extendscript-es5-shim/Object/keys":5,"extendscript-es5-shim/String/trim":6,"extendscriptkit/jsx/ae/Application":7,"extendscriptkit/jsx/ae/Composition":8,"extendscriptkit/jsx/ae/Project":9,"extendscriptkit/jsx/bridge":10,"extendscriptkit/jsx/console":11}],3:[function(require,module,exports){
+},{"./createLayerPropertySetter":1,"extendscript-es5-shim/Array/forEach":3,"extendscript-es5-shim/Array/map":4,"extendscript-es5-shim/Object/defineProperty":5,"extendscript-es5-shim/Object/keys":6,"extendscript-es5-shim/String/trim":7,"extendscriptkit/jsx/ae/Application":8,"extendscriptkit/jsx/ae/Composition":9,"extendscriptkit/jsx/ae/Project":10,"extendscriptkit/jsx/bridge":11,"extendscriptkit/jsx/console":12}],3:[function(require,module,exports){
 /*
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 */
@@ -141,6 +143,90 @@ if (!Array.prototype.forEach) {
     }
 }
 },{}],4:[function(require,module,exports){
+/*
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+*/
+// Production steps of ECMA-262, Edition 5, 15.4.4.19
+// Reference: http://es5.github.io/#x15.4.4.19
+if (!Array.prototype.map) {
+
+  Array.prototype.map = function(callback, thisArg) {
+
+    var T, A, k;
+
+    if (this === void 0 || this === null) {
+      throw new TypeError('Array.prototype.map called on null or undefined');
+    }
+
+    // 1. Let O be the result of calling ToObject passing the |this| 
+    //    value as the argument.
+    var O = Object(this);
+
+    // 2. Let lenValue be the result of calling the Get internal 
+    //    method of O with the argument "length".
+    // 3. Let len be ToUint32(lenValue).
+    var len = O.length >>> 0;
+
+    // 4. If IsCallable(callback) is false, throw a TypeError exception.
+    // See: http://es5.github.com/#x9.11
+    if (callback.__class__ !== 'Function') {
+      throw new TypeError(callback + ' is not a function');
+    }
+
+    // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+    T = (arguments.length > 1) ? thisArg : void 0;
+
+    // 6. Let A be a new array created as if by the expression new Array(len) 
+    //    where Array is the standard built-in constructor with that name and 
+    //    len is the value of len.
+    A = new Array(len);
+
+    for (var k = 0; k < len; k++) {
+
+      var kValue, mappedValue;
+
+      // a. Let Pk be ToString(k).
+      //   This is implicit for LHS operands of the in operator
+      // b. Let kPresent be the result of calling the HasProperty internal 
+      //    method of O with argument Pk.
+      //   This step can be combined with c
+      // c. If kPresent is true, then
+      if (k in O) {
+
+        // i. Let kValue be the result of calling the Get internal 
+        //    method of O with argument Pk.
+        kValue = O[k];
+
+        // ii. Let mappedValue be the result of calling the Call internal 
+        //     method of callback with T as the this value and argument 
+        //     list containing kValue, k, and O.
+        mappedValue = callback.call(T, kValue, k, O);
+
+        // iii. Call the DefineOwnProperty internal method of A with arguments
+        // Pk, Property Descriptor
+        // { Value: mappedValue,
+        //   Writable: true,
+        //   Enumerable: true,
+        //   Configurable: true },
+        // and false.
+
+        // In browsers that support Object.defineProperty, use the following:
+        // Object.defineProperty(A, k, {
+        //   value: mappedValue,
+        //   writable: true,
+        //   enumerable: true,
+        //   configurable: true
+        // });
+
+        // For best browser support, use the following:
+        A[k] = mappedValue;
+      }
+    }
+    // 9. return A
+    return A;
+  };
+}
+},{}],5:[function(require,module,exports){
 if (!Object.defineProperty) {
 
     Object.defineProperty = function defineProperty(object, property, descriptor) {
@@ -176,7 +262,7 @@ if (!Object.defineProperty) {
         return object;
     }
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*
 Original taken from
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Polyfill
@@ -206,7 +292,7 @@ if (!Object.keys) {
     };
   }());
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*
 https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
 */
@@ -216,7 +302,7 @@ if (!String.prototype.trim) {
 		return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 	};
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 require('./Project');
@@ -236,7 +322,7 @@ Application.prototype.faster = function (cb) {
     return composition.remove();
   });
 };
-},{"./Project":9}],8:[function(require,module,exports){
+},{"./Project":10}],9:[function(require,module,exports){
 "use strict";
 
 CompItem.prototype.forLayers = function (cb) {
@@ -256,7 +342,7 @@ CompItem.prototype.forSelectedLayers = function (cb) {
     }
   }
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Project.prototype.forItems = function (cb) {
@@ -292,7 +378,7 @@ Project.prototype.forCompositionsWithName = function (name, cb) {
     return item instanceof CompItem && item.name === name;
   }, cb);
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 var xLib;
@@ -314,7 +400,7 @@ function dispatch(type, data) {
 }
 
 module.exports = dispatch;
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var dispatch = require('./bridge');
@@ -354,7 +440,7 @@ module.exports = {
   log: logConsole,
   error: logError
 };
-},{"./bridge":10}],12:[function(require,module,exports){
+},{"./bridge":11}],13:[function(require,module,exports){
 var util = require('util')
 
 var INDENT_START = /[\{\[]/
@@ -417,7 +503,7 @@ module.exports = function() {
   return line
 }
 
-},{"util":16}],13:[function(require,module,exports){
+},{"util":17}],14:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -599,7 +685,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -624,14 +710,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1221,4 +1307,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":15,"_process":13,"inherits":14}]},{},[2]);
+},{"./support/isBuffer":16,"_process":14,"inherits":15}]},{},[2]);

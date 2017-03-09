@@ -5,7 +5,8 @@ const {
   bundleJsx,
   bundleJs,
   writeTemplates,
-  symlinkExtension
+  symlinkExtension,
+  bundleZXP
 } = require('./actions')
 
 function isLooselyTruthy(val) {
@@ -24,4 +25,5 @@ if (isLooselyTruthy(process.env.EXTENSION_AUTO_OPEN_REMOTE_DEBUGGER))
 bundleJsx()
 bundleJs()
 writeTemplates('prod')
-symlinkExtension()
+symlinkExtension('prod')
+bundleZXP()

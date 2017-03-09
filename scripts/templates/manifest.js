@@ -15,6 +15,7 @@ module.exports = function (
   <ExecutionEnvironment>
     <HostList>
       <Host Name="AEFT" Version="[13.0,15.9]" />
+      <Host Name="ILST" Version="[13.0,15.9]" />
     </HostList>
     <LocaleList>
       <Locale Code="All"/>

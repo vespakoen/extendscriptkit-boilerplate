@@ -3,6 +3,7 @@
   <Extension Id="com.test.test.myextension">
   <HostList>
     <Host Name="AEFT" Port="3001" />
+    <Host Name="ILST" Port="3002" />
   </HostList>
   </Extension>
 </ExtensionList>
